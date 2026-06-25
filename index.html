@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Isha Pali — Adversarial ML &amp; Network Security</title>
+<meta name="description" content="Isha Pali — PhD researcher in adversarial machine learning and network security, building robust defenses for the AI systems inside autonomous vehicles." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#FBFBFC;
+    --panel:#FFFFFF;
+    --ink:#14171F;
+    --ink-soft:#454B57;
+    --muted:#8A8F9C;
+    --accent:#1E3A5F;       /* oxford blue */
+    --accent-soft:#2B5187;
+    --line:#E7E8EC;
+    --line-strong:#D5D7DD;
+    --maxw:1060px;
+    --serif:'Source Serif 4', Georgia, serif;
+    --sans:'Inter', system-ui, sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--paper);color:var(--ink);
+    font-family:var(--sans);font-size:16.5px;line-height:1.65;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+
+  .label{
+    font-family:var(--mono);font-size:11.5px;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--accent-soft);
+    display:flex;align-items:center;gap:12px;margin:0 0 26px;
+  }
+  .label::before{content:"";width:30px;height:1px;background:var(--line-strong);}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:50;background:rgba(251,251,252,.85);
+    backdrop-filter:saturate(150%) blur(10px);border-bottom:1px solid var(--line);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:66px;}
+  .brand{font-family:var(--serif);font-weight:600;font-size:18px;letter-spacing:.01em;text-decoration:none;}
+  .nav-links{display:flex;gap:30px;}
+  .nav-links a{font-family:var(--sans);font-size:14px;text-decoration:none;color:var(--ink-soft);transition:color .2s;}
+  .nav-links a:hover{color:var(--accent);}
+  @media(max-width:700px){.nav-links{display:none;}}
+
+  /* hero */
+  .hero{padding:96px 0 84px;}
+  .hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center;}
+  @media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:44px;}}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 22px;}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.3rem,5vw,3.55rem);
+    line-height:1.08;letter-spacing:-.01em;margin:0 0 24px;max-width:18ch;}
+  .lede{font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--ink-soft);max-width:42ch;margin:0 0 34px;}
+  .cta-row{display:flex;flex-wrap:wrap;gap:14px;}
+  .btn{font-family:var(--sans);font-size:14.5px;font-weight:500;text-decoration:none;
+    padding:12px 22px;border-radius:6px;border:1px solid var(--line-strong);
+    transition:all .18s;display:inline-flex;align-items:center;gap:8px;background:var(--panel);}
+  .btn:hover{border-color:var(--ink);}
+  .btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .btn.primary:hover{background:var(--ink);border-color:var(--ink);}
+
+  .figure{border:1px solid var(--line);border-radius:10px;background:var(--panel);
+    padding:18px;box-shadow:0 1px 2px rgba(20,23,31,.04);}
+  .figure svg{display:block;width:100%;height:auto;}
+  .figure .cap{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--muted);margin-top:14px;text-align:center;}
+
+  /* sections */
+  section{padding:84px 0;border-top:1px solid var(--line);}
+  h2{font-family:var(--serif);font-weight:600;font-size:clamp(1.7rem,3.2vw,2.4rem);
+    letter-spacing:-.01em;margin:0 0 16px;line-height:1.12;}
+  .intro{color:var(--ink-soft);max-width:64ch;margin:0 0 44px;font-size:1.06rem;}
+
+  .about-grid{display:grid;grid-template-columns:1.45fr .9fr;gap:48px;align-items:start;}
+  @media(max-width:780px){.about-grid{grid-template-columns:1fr;gap:34px;}}
+  .facts{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--panel);}
+  .fact{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:14px;}
+  .fact:last-child{border-bottom:none;}
+  .fact b{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;font-weight:500;}
+  .fact span{text-align:right;color:var(--ink);font-weight:500;}
+
+  /* research */
+  .focus-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  @media(max-width:780px){.focus-grid{grid-template-columns:1fr;}}
+  .focus{background:var(--panel);padding:30px;}
+  .focus .fnum{font-family:var(--mono);font-size:11px;color:var(--accent-soft);letter-spacing:.12em;}
+  .focus h3{font-family:var(--serif);font-weight:600;font-size:1.22rem;margin:10px 0 12px;line-height:1.2;}
+  .focus p{margin:0;color:var(--ink-soft);font-size:14.5px;}
+
+  /* publications */
+  .pub-group{border-top:1px solid var(--line);padding:28px 0;
+    display:grid;grid-template-columns:150px 1fr;gap:28px;}
+  .pub-group:first-of-type{border-top:none;padding-top:0;}
+  @media(max-width:680px){.pub-group{grid-template-columns:1fr;gap:14px;}}
+  .pub-kind{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-soft);padding-top:3px;}
+  .pub-kind .badge{display:inline-block;margin-top:10px;font-family:var(--sans);font-size:11px;
+    padding:3px 10px;border-radius:30px;letter-spacing:.02em;background:var(--paper);border:1px solid var(--line-strong);color:var(--ink-soft);text-transform:none;}
+  .pub{margin:0 0 18px;font-size:15px;line-height:1.55;}
+  .pub:last-child{margin-bottom:0;}
+  .pub .ptitle{font-weight:600;color:var(--ink);}
+  .pub .authors{color:var(--ink-soft);}
+  .pub .venue{color:var(--muted);font-style:italic;}
+  .pub a{color:var(--accent);text-decoration:none;border-bottom:1px solid var(--line-strong);}
+  .pub a:hover{border-color:var(--accent);}
+
+  /* timeline */
+  .timeline{position:relative;margin-left:5px;padding-left:30px;border-left:1px solid var(--line-strong);}
+  .tl-item{position:relative;padding:0 0 38px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-item::before{content:"";position:absolute;left:-35px;top:6px;width:9px;height:9px;
+    border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--paper);}
+  .tl-when{font-family:var(--mono);font-size:12px;letter-spacing:.03em;color:var(--muted);}
+  .tl-role{font-family:var(--serif);font-weight:600;font-size:1.2rem;margin:5px 0 3px;}
+  .tl-org{color:var(--ink-soft);font-size:14px;margin-bottom:12px;}
+  .tl-item ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:14.5px;}
+  .tl-item li{margin-bottom:6px;}
+
+  /* skills */
+  .skills-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  @media(max-width:640px){.skills-grid{grid-template-columns:1fr;}}
+  .skill-cat{border:1px solid var(--line);border-radius:10px;padding:22px;background:var(--panel);}
+  .skill-cat h4{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;font-weight:500;}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{font-family:var(--sans);font-size:13px;padding:6px 13px;border-radius:6px;background:var(--paper);color:var(--ink-soft);border:1px solid var(--line);}
+
+  /* awards */
+  .awards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
+  @media(max-width:780px){.awards{grid-template-columns:1fr;}}
+  .award{border:1px solid var(--line);border-radius:10px;padding:26px;background:var(--panel);}
+  .award .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-soft);}
+  .award h4{font-family:var(--serif);font-weight:600;font-size:1.15rem;margin:12px 0 7px;}
+  .award p{margin:0;color:var(--ink-soft);font-size:14px;}
+
+  /* contact */
+  .contact{text-align:center;}
+  .contact .label{justify-content:center;}
+  .contact h2{font-size:clamp(1.9rem,4vw,2.8rem);}
+  .contact .intro{margin:0 auto 34px;max-width:50ch;}
+  .contact-links{display:flex;justify-content:center;flex-wrap:wrap;gap:14px;}
+
+  footer{border-top:1px solid var(--line);padding:34px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+  footer p{font-family:var(--mono);font-size:11.5px;color:var(--muted);letter-spacing:.04em;margin:0;}
+
+  a:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px;}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">Isha Pali</a>
+    <nav class="nav-links">
+      <a href="#research">Research</a>
+      <a href="#publications">Publications</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Background</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero" style="border-top:none;">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="kicker">PhD Researcher · Adversarial ML &amp; Network Security</p>
+        <h1>Adversarial machine learning for systems we trust with our lives.</h1>
+        <p class="lede">I research how the AI inside autonomous vehicles can be attacked — and how to make it hold up. PhD candidate at the University of Queensland and IIT Delhi.</p>
+        <div class="cta-row">
+          <a class="btn primary" href="#publications">View publications</a>
+          <a class="btn" href="mailto:ishapali30.1997@gmail.com">Get in touch</a>
+        </div>
+      </div>
+      <div class="figure">
+        <svg viewBox="0 0 300 240" role="img" aria-label="A decision boundary separating benign and attack data points, with adversarial examples lying across the boundary.">
+          <!-- boundary -->
+          <path d="M5,150 C70,90 140,120 200,80 S280,60 295,70" fill="none" stroke="#C4C7CF" stroke-width="1.4" stroke-dasharray="5 5"/>
+          <!-- benign (open circles, above) -->
+          <g fill="none" stroke="#1E3A5F" stroke-width="1.4">
+            <circle cx="40" cy="60" r="4.5"/><circle cx="78" cy="42" r="4.5"/>
+            <circle cx="120" cy="70" r="4.5"/><circle cx="150" cy="48" r="4.5"/>
+            <circle cx="195" cy="40" r="4.5"/><circle cx="235" cy="34" r="4.5"/>
+            <circle cx="265" cy="44" r="4.5"/><circle cx="100" cy="40" r="4.5"/>
+          </g>
+          <!-- attack (filled, below) -->
+          <g fill="#14171F">
+            <circle cx="35" cy="195" r="4.5"/><circle cx="80" cy="178" r="4.5"/>
+            <circle cx="125" cy="200" r="4.5"/><circle cx="165" cy="170" r="4.5"/>
+            <circle cx="210" cy="185" r="4.5"/><circle cx="250" cy="160" r="4.5"/>
+            <circle cx="60" cy="215" r="4.5"/><circle cx="190" cy="210" r="4.5"/>
+          </g>
+          <!-- adversarial (on the wrong side of the boundary) -->
+          <g>
+            <circle cx="95" cy="118" r="5.5" fill="#fff" stroke="#1E3A5F" stroke-width="1.8"/>
+            <circle cx="95" cy="118" r="2" fill="#1E3A5F"/>
+            <circle cx="175" cy="92" r="5.5" fill="#fff" stroke="#1E3A5F" stroke-width="1.8"/>
+            <circle cx="175" cy="92" r="2" fill="#1E3A5F"/>
+            <circle cx="240" cy="78" r="5.5" fill="#fff" stroke="#1E3A5F" stroke-width="1.8"/>
+            <circle cx="240" cy="78" r="2" fill="#1E3A5F"/>
+          </g>
+        </svg>
+        <p class="cap">Adversarial examples crossing a decision boundary</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="wrap reveal">
+      <p class="label">Profile</p>
+      <div class="about-grid">
+        <div>
+          <h2>Securing the systems that drive themselves.</h2>
+          <p class="intro">I'm a PhD candidate in the University of Queensland–IIT Delhi Research Academy, working at the intersection of adversarial machine learning and network security. My research designs attacks that bypass automotive intrusion detection while remaining physically plausible, then turns those findings into defenses that hold up in practice. The aim is dependable robustness for the AI-driven environments we are beginning to trust with safety-critical decisions.</p>
+        </div>
+        <div class="facts" aria-label="Quick facts">
+          <div class="fact"><b>Based</b><span>Brisbane &amp; Delhi</span></div>
+          <div class="fact"><b>Program</b><span>UQ–IITD Research Academy</span></div>
+          <div class="fact"><b>Field</b><span>Adversarial ML · Security</span></div>
+          <div class="fact"><b>Focus</b><span>In-vehicle IDS robustness</span></div>
+          <div class="fact"><b>Status</b><span>PhD ongoing · open to roles</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESEARCH -->
+  <section id="research">
+    <div class="wrap reveal">
+      <p class="label">Research focus</p>
+      <h2>Current work.</h2>
+      <p class="intro">My doctoral research attacks and defends the intrusion detection systems that protect in-vehicle networks.</p>
+      <div class="focus-grid">
+        <div class="focus">
+          <span class="fnum">01</span>
+          <h3>Adversarial attacks on CAN-bus IDS</h3>
+          <p>A robustness framework that generates inputs which slip past in-vehicle intrusion detection while preserving physical plausibility — perturbations that would survive on a real bus, not only in simulation.</p>
+        </div>
+        <div class="focus">
+          <span class="fnum">02</span>
+          <h3>Validation in CARLA</h3>
+          <p>The approach is implemented and tested in the CARLA autonomous-driving simulator and evaluated across multiple IDS architectures to characterise where each is vulnerable.</p>
+        </div>
+        <div class="focus">
+          <span class="fnum">03</span>
+          <h3>Defenses for edge AI</h3>
+          <p>Ongoing work translates these vulnerability findings into defense frameworks, with emphasis on securing edge-based AI deployments under tight compute and latency budgets.</p>
+        </div>
+        <div class="focus">
+          <span class="fnum">04</span>
+          <h3>PortSec — authentication in SDN</h3>
+          <p>A communication protocol using port knocking as an authentication mechanism in SDN-enabled networks, implemented and tested in P4 on a BMv2 virtual switch.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section id="publications">
+    <div class="wrap reveal">
+      <p class="label">Publications</p>
+      <h2>Selected work.</h2>
+      <p class="intro">Peer-reviewed journals and conferences across vehicular network security, authentication, and adversarial robustness.</p>
+
+      <div class="pub-group">
+        <div class="pub-kind">Journal</div>
+        <div>
+          <p class="pub"><span class="ptitle">S2DN: Design of a robust authentication protocol with session-key establishment in multi-controller software-defined VANETs.</span> <span class="authors">Pali, I., Abdussami, M., Amin, R., Al-Shehari, T., Al-Razgan, M., &amp; Alfakih, T.</span> <span class="venue">Vehicular Communications, 47, 100767 (2024).</span></p>
+          <p class="pub"><span class="ptitle">Autonomous vehicle security: a current survey and future research challenges.</span> <span class="authors">Pali, I., Amin, R., &amp; Abdussami, M.</span> <span class="venue">Security and Privacy, 7(3), e367 (2024).</span></p>
+          <p class="pub"><span class="ptitle">Software-defined network–enabled vehicle-to-vehicle secured data transmission protocol in VANETs.</span> <span class="authors">Amin, R., Pali, I., &amp; Sureshkumar, V.</span> <span class="venue">Journal of Information Security and Applications, 58, 102729 (2021). Impact factor 4.96.</span></p>
+        </div>
+      </div>
+
+      <div class="pub-group">
+        <div class="pub-kind">Conference</div>
+        <div>
+          <p class="pub"><span class="ptitle">PortSec: Securing port knocking using a sequence mechanism in SDN environments.</span> <span class="venue">Accepted — IWCMC 2022, e-Health Symposium.</span></p>
+        </div>
+      </div>
+
+      <div class="pub-group">
+        <div class="pub-kind">Preprint</div>
+        <div>
+          <p class="pub"><span class="ptitle">A comprehensive survey of Aadhaar and security issues.</span> <span class="authors">Pali, I., Krishania, L., Chadha, D., Kandar, A., Varshney, G., &amp; Shukla, S.</span> <span class="venue">arXiv:2007.09409 (2020).</span> <a href="https://arxiv.org/abs/2007.09409" target="_blank" rel="noopener">arXiv ↗</a></p>
+        </div>
+      </div>
+
+      <div class="pub-group">
+        <div class="pub-kind">Under review<span class="badge">ACSAC ’26 · core-A</span></div>
+        <div>
+          <p class="pub"><span class="ptitle">PLAID: A practical machine-learning-assisted robustness framework against automotive intrusion detection.</span> <span class="venue">Submitted to ACSAC ’26.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap reveal">
+      <p class="label">Experience</p>
+      <h2>Professional history.</h2>
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-when">2021 — Present</div>
+          <div class="tl-role">PhD Researcher</div>
+          <div class="tl-org">University of Queensland · IIT Delhi</div>
+          <ul>
+            <li>Designed an adversarial robustness framework targeting CAN-bus intrusion detection, generating inputs that bypass detection while preserving physical plausibility.</li>
+            <li>Implemented and validated the approach in the CARLA simulator across multiple IDS architectures.</li>
+            <li>Evaluating automotive IDS vulnerabilities to design defense frameworks, with ongoing work on securing edge-based AI.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-when">Jan 2024 — Dec 2024</div>
+          <div class="tl-role">Academic Tutor</div>
+          <div class="tl-org">The University of Queensland</div>
+          <ul>
+            <li>CYBR3000 Information Security — encryption, intrusion detection, and core security concepts.</li>
+            <li>COMS3200 Computer Networks — networking fundamentals and socket-programming assignments.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-when">Jan 2019 — Jul 2019</div>
+          <div class="tl-role">Analyst Intern</div>
+          <div class="tl-org">PricewaterhouseCoopers (PwC)</div>
+          <ul>
+            <li>Data &amp; Analytics: built a Python/Selenium pipeline that replaced a manual report-generation workflow, significantly reducing turnaround time.</li>
+            <li>Cyber Security: developed employee security-awareness training aligned to the client's code of ethics and information-security policies.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-when">Jun 2018 — Jul 2018</div>
+          <div class="tl-role">Research Intern</div>
+          <div class="tl-org">DSPM IIIT Naya Raipur — under Dr. Ruhul Amin</div>
+          <ul>
+            <li>Studied security challenges in SDN-based VANETs and proposed a secure protocol for SDN-enabled V2V data transmission — work that led to a JISA journal publication.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION + SKILLS -->
+  <section id="skills">
+    <div class="wrap reveal">
+      <p class="label">Education &amp; technical skills</p>
+      <h2>Background.</h2>
+
+      <div class="timeline" style="margin-bottom:52px;">
+        <div class="tl-item">
+          <div class="tl-when">Ongoing</div>
+          <div class="tl-role">Ph.D., Computer Science &amp; Engineering — Network Security</div>
+          <div class="tl-org">UQ–IITD Research Academy (UQIDRA) · Supervisors: Dr. Dan Kim (UQ), Dr. Vireshwar Kumar (IITD), Dr. Naipeng Dong (UQ)</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-role">M.Tech, CSE — Information Security · CGPA 9.4 / 10</div>
+          <div class="tl-org">DSPM IIIT-NR, Raipur · Supervisor: Dr. Ruhul Amin</div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-role">B.Tech, CSE · CGPA 9.47 / 10 · Minor in Finance (9.67 / 10)</div>
+          <div class="tl-org">NIIT University, Rajasthan</div>
+        </div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-cat">
+          <h4>Languages</h4>
+          <div class="chips"><span class="chip">Python</span><span class="chip">C++</span><span class="chip">P4</span></div>
+        </div>
+        <div class="skill-cat">
+          <h4>ML &amp; Data</h4>
+          <div class="chips"><span class="chip">PyTorch</span><span class="chip">ART</span><span class="chip">Foolbox</span><span class="chip">pandas</span><span class="chip">NumPy</span></div>
+        </div>
+        <div class="skill-cat">
+          <h4>Simulation &amp; Networking</h4>
+          <div class="chips"><span class="chip">CARLA</span><span class="chip">NS2</span><span class="chip">Mininet</span><span class="chip">BMv2</span><span class="chip">Wireshark</span></div>
+        </div>
+        <div class="skill-cat">
+          <h4>Tools</h4>
+          <div class="chips"><span class="chip">LaTeX</span><span class="chip">Edraw Max</span><span class="chip">Git</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AWARDS -->
+  <section id="awards">
+    <div class="wrap reveal">
+      <p class="label">Talks &amp; recognition</p>
+      <h2>Highlights.</h2>
+      <div class="awards">
+        <div class="award">
+          <span class="k">Invited talk</span>
+          <h4>Oracle Labs, Brisbane</h4>
+          <p>Invited to present my research, December 2024.</p>
+        </div>
+        <div class="award">
+          <span class="k">National examination</span>
+          <h4>GATE qualified</h4>
+          <p>Score 418 · Rank 8022.</p>
+        </div>
+        <div class="award">
+          <span class="k">Competition</span>
+          <h4>Smart India Hackathon 2018</h4>
+          <p>Reached the Grand Finale as a team member.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact">
+    <div class="wrap reveal">
+      <p class="label">Contact</p>
+      <h2>Let's work together.</h2>
+      <p class="intro">Open to research and industry roles in adversarial ML, automotive and network security, and applied AI safety.</p>
+      <div class="contact-links">
+        <a class="btn primary" href="mailto:ishapali30.1997@gmail.com">ishapali30.1997@gmail.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/isha-pali-532a63129/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn" href="tel:+918290782362">+91 829 078 2362</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2026 Isha Pali</p>
+    <p>Adversarial ML &amp; Network Security</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    els.forEach(function(e){e.classList.add('in');});
+    return;
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){en.target.classList.add('in');obs.unobserve(en.target);}
+    });
+  },{threshold:.12});
+  els.forEach(function(e){obs.observe(e);});
+})();
+</script>
+</body>
+</html>
